@@ -1,0 +1,58 @@
+.page-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+body {
+  background-color: rgb(28, 44, 60);
+}
+
+a {
+  color: dodgerblue;
+  text-decoration: none;
+}
+
+a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+
+.image-container {
+  position: relative;
+  display: inline-block;
+}
+.tooltip {    
+  position: absolute;
+  bottom: 1.5rem;
+  width: 100%;
+  height: calc(100% - 1.5rem);
+  background-color: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .description-text {
+    font-size: 12pt;
+    text-align: center;
+  }
+  .tools-text {
+    font-weight: bolder;
+  }
+  .source-text {
+    font-style: italic;
+  }
+}
+
+.image-container:hover .tooltip {
+  opacity: 1;
+  pointer-events: auto;
+}
+

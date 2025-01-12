@@ -1,0 +1,25 @@
+.page-title {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+body {
+  background-color: rgb(28, 44, 60);
+}
+
+a {
+  color: dodgerblue;
+  text-decoration: none;
+}
+
+a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
+.row {
+  align-items: flex-end;
+}
+.lead {
+  text-align: justify;
+}
