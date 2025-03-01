@@ -206,6 +206,7 @@ section {
   justify-content: space-between;
   width: 34.5rem;
   height: 5rem;
+  gap: 2rem;
 }
 
 .btn-box .btn {
@@ -434,7 +435,7 @@ span {
 .projects-box .projects-content .project-sample img {
   width: 90%;
   height: 30rem;
-  object-fit: cover;
+  object-fit: contain;
 }
 .projects-box .projects-content .project-text .btn-box {
   width: unset;
