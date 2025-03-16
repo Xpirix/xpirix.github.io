@@ -43,15 +43,15 @@ window.onscroll = function() {
 }
 
 // Home text animation
-var words = ['develop nice things', 'make maps', 'learn something new'],
-    part,
-    i = 0,
-    offset = 0,
-    len = words.length,
-    forwards = true,
-    skip_count = 0,
-    skip_delay = 15,
-    speed = 70;
+var words = ['code with creativity', 'explore new horizons', 'build amazing projects', 'innovate and inspire', 'learn and grow'],
+  part,
+  i = 0,
+  offset = 0,
+  len = words.length,
+  forwards = true,
+  skip_count = 0,
+  skip_delay = 15,
+  speed = 70;
 var wordflick = function () {
   setInterval(function () {
     if (forwards) {
