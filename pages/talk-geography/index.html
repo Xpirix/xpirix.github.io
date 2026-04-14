@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Maps, Code &amp; the City | Lova Andriarimalala</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/black.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,600;0,700;0,900;1,400&family=Space+Mono:wght@400;700&display=optional" rel="stylesheet">
+
+  <style>
+    /* ── Variables ─────────────────────────────────────── */
+    :root {
+      --green:       #589632;
+      --green-light: #88c057;
+      --green-dark:  #3d6b22;
+      --gold:        #f0a500;
+      --blue:        #2e86c1;
+      --dark:        #0d1b2a;
+      --dark-green:  #0a1f0d;
+      --card-bg:     rgba(255,255,255,0.06);
+      --card-border: rgba(136,192,87,0.25);
+      --muted:       rgba(255,255,255,0.55);
+    }
+
+    /* ── Base ──────────────────────────────────────────── */
+    html, body { width: 100%; height: 100%; overflow: hidden; }
+    body { background: var(--dark); }
+
+    .reveal { font-family: 'Inter', sans-serif; font-size: 36px; }
+    .reveal .slides { text-align: left; }
+    /* .reveal .slides > section { padding: 16px 50px 0; } */
+    .reveal .progress { color: var(--green-light); }
+    .reveal .slide-number {
+      background: transparent;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.5em;
+      color: rgba(255,255,255,0.25);
+    }
+    .reveal section img {
+      border: none; box-shadow: none; background: transparent; margin: 0;
+    }
+    .reveal a { color: var(--green-light); text-decoration: none; }
+    .reveal ul { margin-left: 0; }
+
+    /* ── Typography ────────────────────────────────────── */
+    .reveal h1, .reveal h2, .reveal h3 {
+      font-family: 'Inter', sans-serif;
+      text-transform: none;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+    .reveal h1 { font-size: 2.4em; font-weight: 900; }
+    .reveal h2 {
+      font-size: 1.35em; font-weight: 700;
+      color: var(--green-light);
+      margin-bottom: 0.4em;
+      display: flex; align-items: center; gap: 0.3em;
+    }
+    .reveal h3 { font-size: 0.95em; font-weight: 600; color: white; margin: 0 0 0.25em; }
+    .reveal p   { font-size: 0.75em; line-height: 1.6; color: rgba(255,255,255,0.85); }
+
+    .mono      { font-family: 'Space Mono', monospace; color: var(--green-light); }
+    .centered  { text-align: center; }
+    .muted     { color: var(--muted); }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--green-light) 0%, #b5e07a 50%, var(--gold) 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+
+    /* ── Floating animation ────────────────────────────── */
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-12px); }
+    }
+    @keyframes fillBar {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+    @keyframes pulse-dot {
+      0%,100% { box-shadow: 0 0 0 3px rgba(136,192,87,.3); }
+      50%      { box-shadow: 0 0 0 6px rgba(136,192,87,.1); }
+    }
+
+    /* ── Utility components ────────────────────────────── */
+    .section-label {
+      display: inline-flex; align-items: center; gap: 0.4em;
+      background: rgba(88,150,50,0.12);
+      border: 1px solid rgba(88,150,50,0.4);
+      border-radius: 100px;
+      padding: 0.2em 0.8em;
+      font-size: 0.45em; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      color: var(--green-light);
+      margin-bottom: 0.35em;
+      font-family: 'Space Mono', monospace;
+    }
+
+    .tag {
+      display: inline-flex; align-items: center; gap: 0.3em;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 100px;
+      padding: 0.2em 0.7em;
+      font-size: 0.52em; font-weight: 600;
+      color: rgba(255,255,255,0.8);
+      margin: 0.1em;
+    }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 0.4em;
+      background: linear-gradient(135deg, var(--green-dark), var(--green-light));
+      color: white; font-weight: 700; font-size: 0.5em;
+      padding: 0.35em 0.9em; border-radius: 100px; margin: 0.15em;
+    }
+
+    .chip {
+      display: inline-flex; align-items: center; gap: 0.3em;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 8px;
+      padding: 0.25em 0.65em;
+      font-size: 0.5em; font-weight: 600;
+      color: rgba(255,255,255,0.85);
+      margin: 0.1em;
+    }
+
+    /* ── Cards / Boxes ─────────────────────────────────── */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 14px;
+      padding: 1em 1.2em;
+    }
+
+    .highlight-box {
+      background: linear-gradient(135deg, rgba(88,150,50,.13), rgba(136,192,87,.06));
+      border: 1px solid rgba(136,192,87,.35);
+      border-left: 4px solid var(--green);
+      border-radius: 0 12px 12px 0;
+      padding: 0.7em 1.1em;
+      margin: 0.4em 0;
+    }
+    .highlight-box p { margin: 0; font-size: 0.68em; }
+
+    /* ── Grid layouts ──────────────────────────────────── */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1em; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.8em; }
+    .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 0.6em; }
+
+    /* ── Stat box ──────────────────────────────────────── */
+    .stat-box {
+      text-align: center; padding: 0.8em;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+    }
+    .stat-number { font-size: 1.6em; font-weight: 900; color: var(--green-light); display: block; line-height: 1; }
+    .stat-label  { font-size: 0.45em; color: var(--muted); margin-top: 0.3em; display: block; line-height: 1.3; }
+
+    /* ── Skill bars ────────────────────────────────────── */
+    .skill-bar-container { margin: 0.35em 0; }
+    .skill-label {
+      display: flex; justify-content: space-between;
+      font-size: 0.62em; margin-bottom: 0.2em;
+      color: rgba(255,255,255,0.85); font-weight: 500;
+    }
+    .skill-bar-bg {
+      background: rgba(255,255,255,0.1);
+      border-radius: 100px; height: 7px; overflow: hidden;
+    }
+    .skill-bar-fill {
+      height: 100%; border-radius: 100px;
+      background: linear-gradient(90deg, var(--green-dark), var(--green-light));
+      transform-origin: left;
+      animation: fillBar 1.6s cubic-bezier(.4,0,.2,1) forwards;
+    }
+    .skill-bar-fill.blue {
+      background: linear-gradient(90deg, #1a5276, #2e86c1);
+    }
+
+    /* ── Timeline ──────────────────────────────────────── */
+    .timeline { position: relative; padding-left: 1.8em; margin-top: 0.4em; }
+    .timeline::before {
+      content: ''; position: absolute;
+      left: 0.4em; top: 0.6em; bottom: 0.6em; width: 2px;
+      background: linear-gradient(to bottom, var(--green), var(--gold));
+    }
+    .timeline-item { position: relative; margin-bottom: 0.65em; padding-left: 0.4em; }
+    .timeline-item::before {
+      content: ''; position: absolute;
+      left: -1.5em; top: 0.35em;
+      width: 10px; height: 10px; border-radius: 50%;
+      background: var(--green-light); border: 2px solid var(--dark);
+      animation: pulse-dot 2.5s ease-in-out infinite;
+    }
+    .timeline-date { font-size: 0.48em; font-weight: 700; color: var(--gold); font-family: 'Space Mono', monospace; }
+    .timeline-role { font-size: 0.68em; font-weight: 700; color: white; margin: 0.1em 0; }
+    .timeline-org  { font-size: 0.57em; color: var(--muted); line-height: 1.4; }
+    .timeline-item.current .timeline-role { color: var(--green-light); }
+    .timeline-item.current::before { background: var(--gold); }
+
+    /* ── Icon rows ─────────────────────────────────────── */
+    .icon-row { display: flex; align-items: flex-start; gap: 0.65em; margin: 0.45em 0; }
+    .icon-row .icon { color: var(--green-light); font-size: 0.85em; min-width: 1.4em; padding-top: 0.1em; }
+    .icon-row .content { font-size: 0.68em; color: rgba(255,255,255,0.8); line-height: 1.4; }
+    .icon-row .content strong { color: white; display: block; }
+
+    /* ── Map thumbnails ────────────────────────────────── */
+    .map-thumb {
+      border-radius: 10px; overflow: hidden;
+      border: 1px solid var(--card-border); position: relative;
+    }
+    .map-thumb img { width: 100%; height: 150px; object-fit: cover; display: block; }
+    .map-thumb-label {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 0.35em 0.6em;
+      background: linear-gradient(transparent, rgba(0,0,0,.75));
+      font-size: 0.42em; color: white; font-weight: 500;
+    }
+
+    /* ── Website cards ─────────────────────────────────── */
+    .site-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px; overflow: hidden;
+    }
+    .site-card img        { width: 100%; height: 90px; object-fit: cover; display: block; }
+    .site-card-body       { padding: 0.5em 0.75em; }
+    .site-card-name       { font-size: 0.65em; font-weight: 700; color: white; margin: 0 0 0.15em; }
+    .site-card-url        { font-size: 0.52em; color: var(--green-light); font-family: 'Space Mono', monospace; }
+    .site-card-desc       { font-size: 0.5em; color: var(--muted); margin-top: 0.25em; }
+
+    /* ── Workflow step ─────────────────────────────────── */
+    .wf-step {
+      background: linear-gradient(135deg, rgba(88,150,50,.12), rgba(136,192,87,.05));
+      border: 1px solid rgba(136,192,87,.3);
+      border-left: 3px solid var(--green);
+      border-radius: 0 10px 10px 0;
+      padding: 0.3em 0.85em; margin: 0.18em 0;
+      display: flex; align-items: center; gap: 0.6em;
+    }
+    .wf-step-num { font-size: 0.7em; font-weight: 900; color: var(--green-light); font-family: 'Space Mono', monospace; min-width: 1.5em; flex-shrink: 0; }
+    .wf-step-text { overflow: hidden; }
+    .wf-step-text strong { font-size: 0.62em; color: white; display: block; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .wf-step-text span   { font-size: 0.50em; color: var(--muted); line-height: 1.2; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* ── Bullet list ───────────────────────────────────── */
+    .bullet-list { list-style: none; padding: 0; margin: 0; }
+    .bullet-list li {
+      display: flex; align-items: flex-start; gap: 0.5em;
+      margin: 0.35em 0; font-size: 0.68em; color: rgba(255,255,255,0.82);
+    }
+    .bullet-list li::before {
+      content: '▶'; color: var(--green-light); font-size: 0.65em;
+      padding-top: 0.18em; flex-shrink: 0;
+    }
+
+    /* ── Decorative topo SVG ───────────────────────────── */
+    .topo-deco {
+      position: absolute; opacity: 0.055;
+      pointer-events: none; right: -80px; top: 50%;
+      transform: translateY(-50%);
+    }
+
+  </style>
+</head>
+
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 1 · TITLE
+══════════════════════════════════════════════════════ -->
+<section data-background-color="#0d1b2a">
+  <div style="height:100%;display:flex;flex-direction:column;justify-content:center;padding:50px 70px;position:relative;overflow:hidden;">
+
+    <!-- decorative topo circles -->
+    <div class="topo-deco" style="right:-60px;">
+      <svg width="480" height="480"><circle cx="240" cy="240" r="230" fill="none" stroke="#88c057" stroke-width="1.5"/><circle cx="240" cy="240" r="190" fill="none" stroke="#88c057" stroke-width="1.5"/><circle cx="240" cy="240" r="150" fill="none" stroke="#88c057" stroke-width="1.5"/><circle cx="240" cy="240" r="110" fill="none" stroke="#88c057" stroke-width="1.5"/><circle cx="240" cy="240" r="70" fill="none" stroke="#88c057" stroke-width="1.5"/><circle cx="240" cy="240" r="30" fill="none" stroke="#88c057" stroke-width="1.5"/></svg>
+    </div>
+
+    <!-- glowing top-left accent -->
+    <div style="position:absolute;top:-80px;left:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(88,150,50,.18),transparent 70%);pointer-events:none;"></div>
+
+    <div class="fragment fade-in" style="font-size:0.42em;font-weight:700;text-transform:uppercase;letter-spacing:.2em;color:var(--green-light);font-family:'Space Mono',monospace;margin-bottom:.7em;">
+      📍 Antananarivo · April 2026
+    </div>
+
+    <h1 style="font-size:2.55em;font-weight:900;line-height:1.05;margin:0 0 .3em;">
+      <span class="gradient-text">Maps, Code</span><br>&amp; the City
+    </h1>
+
+    <p style="font-size:.65em;color:var(--muted);margin:0 0 2em;max-width:62%;">
+      A professional journey through GIS, Web Development, and<br>Urban Water Research in Madagascar
+    </p>
+
+    <div class="fragment fade-up" style="display:flex;align-items:center;gap:1.2em;flex-wrap:wrap;">
+      <img src="https://avatars.githubusercontent.com/u/43842786?v=4"
+           style="width:58px;height:58px;border-radius:50%;border:3px solid var(--green);object-fit:cover;"
+           alt="Lova">
+      <div style="font-size:.62em;">
+        <strong style="display:block;color:white;font-size:1.15em;">Lova Andriarimalala</strong>
+        <span style="color:var(--muted);">PhD · QGIS Full Stack Developer @ Kartoza</span>
+      </div>
+      <div style="display:flex;gap:.45em;margin-left:auto;">
+        <span class="tag"><i class="fab fa-github"></i> xpirix</span>
+        <span class="tag"><i class="fas fa-globe"></i> xpirix.github.io</span>
+        <span class="tag"><i class="fas fa-map-pin"></i> Madagascar</span>
+      </div>
+    </div>
+
+    <div style="position:absolute;bottom:28px;right:70px;font-size:.38em;color:rgba(255,255,255,.2);font-family:'Space Mono',monospace;">
+      ← → to navigate · Space to advance
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 2 · ABOUT ME
+══════════════════════════════════════════════════════ -->
+<section data-background-color="#0d1b2a">
+  <div class="section-label"><i class="fas fa-user"></i> About Me</div>
+  <h2><i class="fas fa-id-card"></i> Who am I?</h2>
+
+  <div class="grid-2" style="gap:1.5em;align-items:start;">
+    <div>
+      <div class="icon-row fragment fade-up">
+        <span class="icon"><i class="fas fa-graduation-cap"></i></span>
+        <div class="content">
+          <strong>PhD — Integrated Urban Water Management</strong>
+          Defended June 2025 · University of Antananarivo
+        </div>
+      </div>
+      <div class="icon-row fragment fade-up">
+        <span class="icon"><i class="fas fa-briefcase"></i></span>
+        <div class="content">
+          <strong>QGIS Full Stack Developer @ Kartoza</strong>
+          Maintaining the QGIS.org ecosystem · Oct 2023–present
+        </div>
+      </div>
+      <div class="icon-row fragment fade-up">
+        <span class="icon"><i class="fas fa-code"></i></span>
+        <div class="content">
+          <strong>5+ years · GIS &amp; Web Development</strong>
+          Python · JavaScript · QGIS · PostGIS · Django · Docker
+        </div>
+      </div>
+      <div class="icon-row fragment fade-up">
+        <span class="icon"><i class="fas fa-map-pin"></i></span>
+        <div class="content">
+          <strong>Based in Antananarivo, Madagascar</strong>
+          Open-source contributor · 🗺️ Maps &amp; 💻 Code
+        </div>
+      </div>
+      <div class="icon-row fragment fade-up">
+        <span class="icon"><i class="fas fa-heart"></i></span>
+        <div class="content">
+          <strong>A random movie made me fall in love with coding</strong>
+          <span class="muted">...and geography kept me hooked</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="fragment fade-up">
+      <div class="highlight-box" style="margin-bottom:.9em;">
+        <p style="font-size:.65em;font-style:italic;color:rgba(255,255,255,.85);">
+          "Anything related to web development 👨‍💻 and beautiful maps 🗾"
+        </p>
+      </div>
+      <div class="grid-2" style="gap:.6em;">
+        <div class="stat-box">
+          <span class="stat-number">5+</span>
+          <span class="stat-label">Years of GIS Experience</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">4,292</span>
+          <span class="stat-label">GitHub contributions in 2025</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">70 ⭐</span>
+          <span class="stat-label">Stars on qgis-osint plugin</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number">5+</span>
+          <span class="stat-label">QGIS websites maintained</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 3 · CAREER TIMELINE
+══════════════════════════════════════════════════════ -->
+<section data-background-color="#0d1b2a">
+  <div class="section-label"><i class="fas fa-road"></i> Career Path</div>
+  <h2><i class="fas fa-route"></i> My Professional Journey</h2>
+
+  <div class="timeline">
+    <div class="timeline-item fragment fade-up">
+      <div class="timeline-date">Jun – Aug 2017</div>
+      <div class="timeline-role">Trainee · AGETIPA</div>
+      <div class="timeline-org">Urban project identification · ELECTRE-TRI in QGIS · Built the first internal PostGIS server</div>
+    </div>
+    <div class="timeline-item fragment fade-up">
+      <div class="timeline-date">Nov 2018 – Oct 2020</div>
+      <div class="timeline-role">GIS Consultant &amp; Jr. Project Manager · AGETIPA</div>
+      <div class="timeline-org">Urban &amp; sanitation master plans · 2D/3D decision maps · Trained stakeholders on QGIS · Web mapping app design</div>
+    </div>
+    <div class="timeline-item fragment fade-up">
+      <div class="timeline-date">Nov 2020 – Sep 2023</div>
+      <div class="timeline-role">Web-GIS Developer · Futurmap</div>
+      <div class="timeline-org">5+ web mapping platforms · 3+ custom QGIS plugins · Geospatial data pipelines &amp; social media maps</div>
+    </div>
+    <div class="timeline-item current fragment fade-up">
+      <div class="timeline-date" style="color:var(--gold);">Oct 2023 – Present</div>
+      <div class="timeline-role">QGIS Full Stack Developer · Kartoza</div>
+      <div class="timeline-org">Maintaining qgis.org &amp; entire web ecosystem · Open-source contributions &amp; code review</div>
+    </div>
+  </div>
+
+  <div class="fragment fade-up" style="margin-top:1.2em;">
+    <div class="highlight-box">
+      <p style="font-size:.6em;color:rgba(255,255,255,.8);">
+        <i class="fas fa-lightbulb" style="color:var(--gold);margin-right:.3em;"></i>
+        The intersection of <strong>geography, coding and urban challenges</strong> has driven every career move.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 3b · EDUCATION
+══════════════════════════════════════════════════════ -->
+<section data-background-color="#0d1b2a">
+  <div class="section-label"><i class="fas fa-university"></i> Education</div>
+  <h2><i class="fas fa-graduation-cap"></i> Academic Background</h2>
+
+  <div class="grid-2" style="gap:1.2em;align-items:start;margin-bottom:1em;">
+    <div class="card fragment fade-up">
+      <div style="font-size:.48em;color:var(--gold);font-family:'Space Mono',monospace;font-weight:700;">2019 – 2025</div>
+      <h3>PhD — Integrated Urban Water Management</h3>
+      <p style="font-size:.6em;color:var(--muted);margin:.3em 0 0;">Defended June 2025 · University of Antananarivo, Madagascar</p>
+    </div>
+    <div class="card fragment fade-up">
+      <div style="font-size:.48em;color:var(--gold);font-family:'Space Mono',monospace;font-weight:700;">2016 – 2017</div>
+      <h3>Master's Degree in Geography</h3>
+      <p style="font-size:.6em;color:var(--muted);margin:.3em 0 0;">University of Antananarivo, Madagascar</p>
+    </div>
+  </div>
+  <div class="highlight-box fragment fade-up">
+    <p style="font-size:.6em;color:rgba(255,255,255,.8);">
+      <i class="fas fa-lightbulb" style="color:var(--gold);margin-right:.3em;"></i>
+      From geography student to open-source GIS developer — <strong>maps have been the constant thread</strong>.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 4 · SKILLS
+══════════════════════════════════════════════════════ -->
+<section data-background-color="#0d1b2a">
+  <div class="section-label"><i class="fas fa-tools"></i> Skills &amp; Tech</div>
+  <h2><i class="fas fa-layer-group"></i> My Tech Arsenal</h2>
+
+  <div class="grid-2" style="gap:1.2em;align-items:start;">
+    <div>
+      <div style="font-size:.58em;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4em;">Coding</div>
+
+      <div class="skill-bar-container fragment fade-up">
+        <div class="skill-label"><span><i class="fab fa-python" style="color:#3572a5;"></i> Python</span><span>90%</span></div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:90%;"></div></div>
+      </div>
+      <div class="skill-bar-container fragment fade-up">
+        <div class="skill-label"><span><i class="fab fa-html5" style="color:#e44d26;"></i> HTML / <i class="fab fa-css3-alt" style="color:#563d7c;"></i> CSS</span><span>85%</span></div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:85%;"></div></div>
+      </div>
+      <div class="skill-bar-container fragment fade-up">
+        <div class="skill-label"><span><i class="fab fa-js" style="color:#f7df1e;"></i> JavaScript / TypeScript</span><span>80%</span></div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:80%;"></div></div>
+      </div>
+      <div class="skill-bar-container fragment fade-up">
+        <div class="skill-label"><span><i class="fas fa-terminal"></i> Shell / Linux</span><span>75%</span></div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill" style="width:75%;"></div></div>
+      </div>
+
+      <div class="fragment fade-up" style="margin-top:.6em;">
+        <div style="font-size:.55em;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.3em;">Key Tools</div>
+        <div>
+          <span class="chip" style="background:rgba(88,150,50,.18);border-color:rgba(88,150,50,.4);color:#88c057;"><i class="fas fa-map"></i> QGIS</span>
+          <span class="chip">PostGIS</span><span class="chip">QGIS Server</span><span class="chip">PyQGIS</span>
+          <span class="chip">Django</span><span class="chip">Docker</span><span class="chip">PostgreSQL</span>
+          <span class="chip">NixOS</span><span class="chip">Blender</span><span class="chip">Hugo</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size:.58em;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:.4em;">Professional</div>
+
+      <div class="skill-bar-container fragment fade-up">
+        <div class="skill-label"><span><i class="fas fa-globe-africa"></i> GIS &amp; Spatial Analysis</span><span>90%</span></div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill blue" style="width:90%;"></div></div>
+      </div>
+      <div class="skill-bar-container fragment fade-up">
+        <div class="skill-label"><span><i class="fas fa-code"></i> Web Development</span><span>90%</span></div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill blue" style="width:90%;"></div></div>
+      </div>
+      <div class="skill-bar-container fragment fade-up">
+        <div class="skill-label"><span><i class="fas fa-server"></i> DevOps &amp; Sysadmin</span><span>85%</span></div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill blue" style="width:85%;"></div></div>
+      </div>
+      <div class="skill-bar-container fragment fade-up">
+        <div class="skill-label"><span><i class="fas fa-tasks"></i> Project Management</span><span>75%</span></div>
+        <div class="skill-bar-bg"><div class="skill-bar-fill blue" style="width:75%;"></div></div>
+      </div>
+
+      <div class="fragment fade-up" style="margin-top:.6em;">
+        <div class="card" style="padding:.55em .8em;">
+          <div style="font-size:.55em;font-weight:700;color:var(--green-light);margin-bottom:.3em;"><i class="fab fa-osi"></i> Open Source Org Contributions</div>
+          <div style="display:flex;gap:.3em;flex-wrap:wrap;">
+            <span class="tag"><i class="fas fa-code-branch"></i> qgis/QGIS-Website</span>
+            <span class="tag">qgis/QGIS-Plugins-Website</span>
+            <span class="tag">qgis/QGIS-Hub-Website</span>
+            <span class="tag">qgis/QGIS-Planet-Website</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 5 · QGIS ECOSYSTEM
+══════════════════════════════════════════════════════ -->
+<section data-background-color="#0a1f0d">
+  <div class="section-label" style="background:rgba(88,150,50,.18);border-color:rgba(88,150,50,.5);"><i class="fas fa-network-wired"></i> QGIS Ecosystem</div>
+  <h2 style="color:#a8d56a;"><i class="fas fa-sitemap"></i> Powering the QGIS Ecosystem</h2>
+
+  <p style="font-size:.6em;color:var(--muted);margin-bottom:.7em;">
+    Maintaining the official web properties of the <strong style="color:#88c057;">QGIS Project</strong> — the world's leading open-source GIS platform used by millions worldwide.
+  </p>
+
+  <div class="grid-3" style="gap:.65em;margin-bottom:.65em;">
+    <div class="site-card fragment fade-up">
+      <img src="https://xpirix.github.io/images/qgis-org.webp" alt="QGIS.org">
+      <div class="site-card-body">
+        <div class="site-card-name">QGIS.org</div>
+        <div class="site-card-url">qgis.org</div>
+        <div class="site-card-desc">Hugo · Bulma · NixOS · Nginx deployment</div>
+      </div>
+    </div>
+    <div class="site-card fragment fade-up">
+      <img src="https://xpirix.github.io/images/qgis-plugins.webp" alt="QGIS Plugins">
+      <div class="site-card-body">
+        <div class="site-card-name">QGIS Plugins</div>
+        <div class="site-card-url">plugins.qgis.org</div>
+        <div class="site-card-desc">Django · PostgreSQL · Plugin Marketplace</div>
+      </div>
+    </div>
+    <div class="site-card fragment fade-up">
+      <img src="https://xpirix.github.io/images/qgis-hub.webp" alt="QGIS Hub">
+      <div class="site-card-body">
+        <div class="site-card-name">QGIS Hub</div>
+        <div class="site-card-url">hub.qgis.org</div>
+        <div class="site-card-desc">Styles, processing models, 3D resources</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2" style="gap:.65em;margin-bottom:.75em;">
+    <div class="site-card fragment fade-up" style="display:flex;align-items:center;gap:.75em;padding:.55em .75em;">
+      <img src="https://xpirix.github.io/images/qgis-feed.webp" style="width:75px;height:55px;border-radius:8px;flex-shrink:0;object-fit:cover;" alt="QGIS Feed">
+      <div>
+        <div class="site-card-name">QGIS Feed</div>
+        <div class="site-card-url">feed.qgis.org</div>
+      </div>
+    </div>
+    <div class="site-card fragment fade-up" style="display:flex;align-items:center;gap:.75em;padding:.55em .75em;">
+      <img src="https://xpirix.github.io/images/qgis-planet.webp" style="width:75px;height:55px;border-radius:8px;flex-shrink:0;object-fit:cover;" alt="QGIS Planet">
+      <div>
+        <div class="site-card-name">QGIS Planet</div>
+        <div class="site-card-url">planet.qgis.org</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fragment fade-up" style="display:flex;gap:.5em;flex-wrap:wrap;">
+    <span class="badge"><i class="fas fa-code-commit"></i> 4,292 contributions in 2025</span>
+    <span class="badge" style="background:linear-gradient(135deg,#1e3a5f,#2e6da4);"><i class="fab fa-github"></i> 40+ repositories</span>
+    <span class="badge" style="background:linear-gradient(135deg,#5d4037,#bf360c);"><i class="fas fa-code-pull-request"></i> 79% Pull Requests</span>
+    <span class="badge" style="background:linear-gradient(135deg,#4a235a,#884ea0);"><i class="fas fa-eye"></i> 12% Issues</span>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 6 · QGIS-OSINT
+══════════════════════════════════════════════════════ -->
+<section data-background-color="#0a1f0d">
+  <div class="section-label"><i class="fas fa-globe"></i> My Own Project</div>
+  <h2 style="color:#a8d56a;"><i class="fas fa-crosshairs"></i> QGIS OSINT Matrix — Ecosystem Dashboard</h2>
+
+  <div class="grid-2" style="gap:1.5em;align-items:start;">
+    <div>
+      <div class="highlight-box" style="margin-bottom:.9em;">
+        <p style="font-size:.68em;font-weight:600;color:white;margin-bottom:.25em;">
+          A full-screen WebGL map visualising public QGIS ecosystem data in real time
+        </p>
+        <p style="font-size:.6em;color:rgba(255,255,255,.7);">
+          A standalone web application — not a QGIS plugin. Runs in the browser, powered by SvelteKit &amp; FastAPI.
+        </p>
+      </div>
+
+      <ul class="bullet-list">
+        <li class="fragment fade-up">Contributors &amp; user groups plotted on a live WebGL map</li>
+        <li class="fragment fade-up">Live feed tracks: GitHub commits, releases, QEPs, Blog, Planet</li>
+        <li class="fragment fade-up">Plugin repository &amp; QGIS Hub latest resources</li>
+        <li class="fragment fade-up">Past &amp; upcoming events · Sustaining members panel</li>
+        <li class="fragment fade-up">100% open-source · GPL v2 · for the QGIS community</li>
+      </ul>
+
+      <div class="fragment fade-up" style="margin-top:.9em;display:flex;flex-wrap:wrap;gap:.3em;">
+        <span class="badge"><i class="fas fa-star"></i> 70 Stars</span>
+        <span class="badge" style="background:linear-gradient(135deg,#1a5276,#2e86c1);"><i class="fas fa-code-branch"></i> 7 Forks</span>
+        <span class="badge" style="background:linear-gradient(135deg,#c0392b,#e74c3c);"><i class="fas fa-fire"></i> SvelteKit</span>
+      </div>
+
+      <div style="margin-top:.85em;font-size:.48em;font-family:'Space Mono',monospace;color:rgba(255,255,255,.35);">
+        <i class="fab fa-github"></i> github.com/Xpirix/qgis-osint
+      </div>
+    </div>
+
+    <div class="fragment fade-up">
+      <div style="border:1px solid rgba(136,192,87,.3);border-radius:16px;overflow:hidden;line-height:0;margin-bottom:.7em;">
+        <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7445803906204536832?compact=1"
+                height="399" width="504"
+                frameborder="0" allowfullscreen
+                title="QGIS OSINT Matrix demo"
+                style="width:100%;height:399px;display:block;border:none;">
+        </iframe>
+      </div>
+
+      <div class="card" style="font-size:.6em;">
+        <strong style="color:#88c057;display:block;margin-bottom:.3em;">Why I built it</strong>
+        <p style="margin:0 0 .5em;color:var(--muted);font-size:.9em;line-height:1.5;">
+          To make the entire QGIS open-source ecosystem visible at a glance — contributors, community groups, live activity and events, all on one map.
+        </p>
+        <a href="https://github.com/Xpirix/qgis-osint" target="_blank"
+           style="display:inline-flex;align-items:center;gap:.4em;color:#88c057;font-family:'Space Mono',monospace;font-size:.85em;text-decoration:none;">
+          <i class="fab fa-github"></i> github.com/Xpirix/qgis-osint
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 7 · PHD 1/6 — CONTEXT & RESEARCH QUESTION
+══════════════════════════════════════════════════════ -->
+<section data-background-color="#0d1b2a">
+  <div class="section-label" style="border-color:rgba(46,134,193,.4);color:#5dade2;background:rgba(46,134,193,.1);"><i class="fas fa-water"></i> PhD Research · 1/6</div>
+  <h2 style="color:#5dade2;"><i class="fas fa-city"></i> Integrated Urban Water Management — Antananarivo</h2>
+
+  <div class="grid-2" style="gap:1.4em;align-items:start;">
+    <div>
+      <div class="card" style="border-color:rgba(46,134,193,.3);margin-bottom:.8em;">
+        <div style="font-size:.5em;font-weight:700;color:#5dade2;font-family:'Space Mono',monospace;margin-bottom:.3em;">RESEARCH QUESTION</div>
+        <p style="margin:0;font-size:.65em;font-weight:600;color:white;line-height:1.4;font-style:italic;">
+          "To what extent does the current stormwater and wastewater management system meet the criteria of integrated urban water management?"
+        </p>
+      </div>
+
+      <div class="grid-2" style="gap:.5em;margin-bottom:.5em;">
+        <div class="stat-box">
+          <span class="stat-number" style="color:#5dade2;">38</span>
+          <span class="stat-label">Communes</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number" style="color:#5dade2;">768</span>
+          <span class="stat-label">km² of Total area</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number" style="color:#5dade2;">2.6M</span>
+          <span class="stat-label">Inhabitants (2022)</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-number" style="color:#f0a500;">12k</span>
+          <span class="stat-label">Disaster victims</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size:.5em;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.4em;">4 Hypotheses tested</div>
+      <ul class="bullet-list">
+        <li class="fragment fade-up"><span>Increasing development into <strong>flood &amp; landslide risk zones</strong></span></li>
+        <li class="fragment fade-up"><span><strong>Coordination failures</strong> between urban water management actors</span></li>
+        <li class="fragment fade-up"><span>Need for an <strong>integrated vision</strong> shared across all stakeholders</span></li>
+        <li class="fragment fade-up"><span>Management remains <strong>curative rather than preventive</strong></span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 7b · PHD 2/6 — DATA SOURCES
+══════════════════════════════════════════════════════ -->
+<section data-background-color="#0d1b2a">
+  <div class="section-label" style="border-color:rgba(46,134,193,.4);color:#5dade2;background:rgba(46,134,193,.1);"><i class="fas fa-database"></i> PhD Research · 2/6</div>
+  <h2 style="color:#5dade2;"><i class="fas fa-database"></i> Data Sources</h2>
+
+  <div class="grid-3" style="gap:.75em;align-items:start;">
+    <div class="card fragment fade-up" style="border-color:rgba(46,134,193,.25);">
+      <div style="display:flex;align-items:center;gap:.5em;margin-bottom:.4em;">
+        <i class="fas fa-file-alt" style="color:#f0a500;font-size:1.1em;"></i>
+        <strong style="color:white;font-size:.62em;">Institutional Documents</strong>
+      </div>
+      <ul class="bullet-list" style="font-size:.82em;">
+        <li>MDAT / MATSF — sanitation master plan</li>
+        <li>MEAH, CUA, APIPA, AGETIPA</li>
+        <li>PIAA programme &amp; World Bank</li>
+        <li>SDA, PUDi — investment reports</li>
+        <li>Scientific publications &amp; websites</li>
+      </ul>
+    </div>
+
+    <div class="card fragment fade-up" style="border-color:rgba(46,134,193,.25);">
+      <div style="display:flex;align-items:center;gap:.5em;margin-bottom:.4em;">
+        <i class="fas fa-map" style="color:#5dade2;font-size:1.1em;"></i>
+        <strong style="color:white;font-size:.62em;">Geographic &amp; Spatial Data</strong>
+      </div>
+      <ul class="bullet-list" style="font-size:.82em;">
+        <li>Admin boundaries — BNGRC, OCHA, humdata.org</li>
+        <li>Demographics — INSTAT RGPH III census</li>
+        <li>LiDAR DTM &amp; aerial photos — SaryTany, Sintégra</li>
+        <li>Sanitation networks — PIAA programme</li>
+      </ul>
+    </div>
+
+    <div class="card fragment fade-up" style="border-color:rgba(46,134,193,.25);">
+      <div style="display:flex;align-items:center;gap:.5em;margin-bottom:.4em;">
+        <i class="fas fa-walking" style="color:#88c057;font-size:1.1em;"></i>
+        <strong style="color:white;font-size:.62em;">Fieldwork</strong>
+      </div>
+      <ul class="bullet-list" style="font-size:.82em;">
+        <li>Stakeholder interviews — ministries &amp; operators</li>
+        <li>Primary canal visits — Canal Andriantany, C3</li>
+        <li>Flood zone visits — agglomeration scale</li>
+        <li>Questionnaire surveys — North-East sector</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 7c · PHD 3/6 — RESEARCH METHOD & PROCESSING
+══════════════════════════════════════════════════════ -->
+<section data-background-color="#0d1b2a">
+  <div class="section-label" style="border-color:rgba(46,134,193,.4);color:#5dade2;background:rgba(46,134,193,.1);"><i class="fas fa-cogs"></i> PhD Research · 3/6</div>
+  <h2 style="color:#5dade2;"><i class="fas fa-project-diagram"></i> Research Method &amp; Processing</h2>
+
+  <div class="grid-2" style="gap:1.2em;align-items:start;">
+    <div>
+      <div style="font-size:.5em;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.4em;">Deductive Approach</div>
+      <div class="wf-step fragment fade-up">
+        <span class="wf-step-num">①</span>
+        <div class="wf-step-text">
+          <strong>Problem Formulation &amp; Hypotheses</strong>
+          <span>Define research question · 4 testable hypotheses on IUWM</span>
+        </div>
+      </div>
+      <div class="wf-step fragment fade-up">
+        <span class="wf-step-num">②</span>
+        <div class="wf-step-text">
+          <strong>Documentation Phase</strong>
+          <span>Institutional reports, master plans, scientific literature</span>
+        </div>
+      </div>
+      <div class="wf-step fragment fade-up">
+        <span class="wf-step-num">③</span>
+        <div class="wf-step-text">
+          <strong>Fieldwork</strong>
+          <span>Canal visits, stakeholder interviews, NE sector surveys</span>
+        </div>
+      </div>
+      <div class="wf-step fragment fade-up">
+        <span class="wf-step-num">④</span>
+        <div class="wf-step-text">
+          <strong>Spatial Analysis &amp; Results</strong>
+          <span>Confirm / reject hypotheses — risk modeling, multicriteria</span>
+        </div>
+      </div>
+      <div class="wf-step fragment fade-up">
+        <span class="wf-step-num">⑤</span>
+        <div class="wf-step-text">
+          <strong>Recommendations &amp; Decision Tool</strong>
+          <span>Integrated framework → Geosanitation geoportal</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size:.5em;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.4em;">GIS Processing Pipeline</div>
+      <div class="wf-step fragment fade-up">
+        <span class="wf-step-num">①</span>
+        <div class="wf-step-text">
+          <strong>PostgreSQL + PostGIS — Data Storage</strong>
+          <span>Store &amp; classify geographic and statistical datasets</span>
+        </div>
+      </div>
+      <div class="wf-step fragment fade-up">
+        <span class="wf-step-num">②</span>
+        <div class="wf-step-text">
+          <strong>QGIS + Python — Spatial Analysis</strong>
+          <span>Urban, flood, landslide risk modeling</span>
+        </div>
+      </div>
+      <div class="wf-step fragment fade-up">
+        <span class="wf-step-num">③</span>
+        <div class="wf-step-text">
+          <strong>QGIS — Thematic Cartography</strong>
+          <span>Produce thematic maps &amp; print layouts</span>
+        </div>
+      </div>
+      <div class="wf-step fragment fade-up">
+        <span class="wf-step-num">④</span>
+        <div class="wf-step-text">
+          <strong>QGIS Server — Map Server Deployment</strong>
+          <span>Publish WMS/WFS services for the web geoportal</span>
+        </div>
+      </div>
+      <div class="wf-step fragment fade-up">
+        <span class="wf-step-num">⑤</span>
+        <div class="wf-step-text">
+          <strong>OpenLayers + PyQGIS — Geosanitation</strong>
+          <span>Decision-support tool with interactive map viewer</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 7d · PHD 4/6 — KEY FINDINGS
+══════════════════════════════════════════════════════ -->
+<section data-background-color="#0d1b2a">
+  <div class="section-label" style="border-color:rgba(46,134,193,.4);color:#5dade2;background:rgba(46,134,193,.1);"><i class="fas fa-search"></i> PhD Research · 4/6</div>
+  <h2 style="color:#5dade2;"><i class="fas fa-chart-bar"></i> Key Findings</h2>
+
+  <div class="grid-2" style="gap:.7em;">
+    <div class="card fragment fade-up" style="border-color:rgba(46,134,193,.25);">
+      <div style="display:flex;align-items:center;gap:.5em;margin-bottom:.3em;">
+        <i class="fas fa-city" style="color:#f0a500;font-size:1.1em;"></i>
+        <strong style="color:white;font-size:.68em;">1 · Rapid Unplanned Urbanisation</strong>
+      </div>
+      <p style="margin:0;font-size:.56em;color:var(--muted);line-height:1.5;">Population grew from ~1.5M (1993) to 2.6M (2022). Uncontrolled expansion into risk zones, loss of wetlands and green spaces reducing natural drainage capacity.</p>
+    </div>
+
+    <div class="card fragment fade-up" style="border-color:rgba(46,134,193,.25);">
+      <div style="display:flex;align-items:center;gap:.5em;margin-bottom:.3em;">
+        <i class="fas fa-sitemap" style="color:#e74c3c;font-size:1.1em;"></i>
+        <strong style="color:white;font-size:.68em;">2 · Fragile Institutional Framework</strong>
+      </div>
+      <p style="margin:0;font-size:.56em;color:var(--muted);line-height:1.5;">Responsibilities fragmented across ministries, communes and operators. Lack of coordination, unstable financial resources and difficulties collecting sanitation fees.</p>
+    </div>
+
+    <div class="card fragment fade-up" style="border-color:rgba(46,134,193,.25);">
+      <div style="display:flex;align-items:center;gap:.5em;margin-bottom:.3em;">
+        <i class="fas fa-water" style="color:#5dade2;font-size:1.1em;"></i>
+        <strong style="color:white;font-size:.68em;">3 · Dysfunctional Sanitation Networks</strong>
+      </div>
+      <p style="margin:0;font-size:.56em;color:var(--muted);line-height:1.5;">445 km of network: only 34% buried. Obsolete wastewater system with low connection rate &amp; direct discharges. Canals chronically blocked by solid waste, worsening flooding.</p>
+    </div>
+
+    <div class="card fragment fade-up" style="border-color:rgba(46,134,193,.25);">
+      <div style="display:flex;align-items:center;gap:.5em;margin-bottom:.3em;">
+        <i class="fas fa-house-flood-water" style="color:#f0a500;font-size:1.1em;"></i>
+        <strong style="color:white;font-size:.68em;">4 · January 2022 Flooding Impacts</strong>
+      </div>
+      <p style="margin:0;font-size:.56em;color:var(--muted);line-height:1.5;"><strong style="color:white;">4,500+</strong> buildings damaged · <strong style="color:white;">~58,000</strong> people affected · <strong style="color:white;">337 km</strong> of roads submerged — illustrating the urgent need for integrated water governance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 7e · PHD 5/6 — THE SOLUTION (GEOSANITATION)
+══════════════════════════════════════════════════════ -->
+<section data-background-color="#0d1b2a">
+  <div class="section-label" style="border-color:rgba(46,134,193,.4);color:#5dade2;background:rgba(46,134,193,.1);"><i class="fas fa-laptop-code"></i> PhD Research · 5/6</div>
+  <h2 style="color:#5dade2;"><i class="fas fa-laptop-code"></i> Geosanitation — A QGIS-Powered Geoportal</h2>
+
+  <div class="grid-2" style="gap:1.2em;align-items:start;">
+    <div>
+      <p style="font-size:.56em;color:rgba(255,255,255,.75);margin-bottom:.4em;">
+        A centralised web geoportal built as the <strong>decision-support tool</strong> proposed by the PhD thesis —
+        addressing the lack of shared spatial infrastructure among Antananarivo's water actors.
+      </p>
+
+      <div class="icon-row fragment fade-up" style="margin:.25em 0;">
+        <span class="icon" style="color:#5dade2;"><i class="fas fa-users"></i></span>
+        <div class="content"><strong>Multi-actor access</strong>Ministries, water managers, operators and citizens</div>
+      </div>
+      <div class="icon-row fragment fade-up" style="margin:.25em 0;">
+        <span class="icon" style="color:#5dade2;"><i class="fas fa-map"></i></span>
+        <div class="content"><strong>Thematic map viewer</strong>Stormwater &amp; wastewater networks, flood &amp; risk zones — WMS/WFS via QGIS Server</div>
+      </div>
+      <div class="icon-row fragment fade-up" style="margin:.25em 0;">
+        <span class="icon" style="color:#5dade2;"><i class="fas fa-bell"></i></span>
+        <div class="content"><strong>Citizen early-warning system</strong>Disseminate flood &amp; landslide risk alerts to the public</div>
+      </div>
+      <div class="icon-row fragment fade-up" style="margin:.25em 0;">
+        <span class="icon" style="color:#5dade2;"><i class="fas fa-mouse-pointer"></i></span>
+        <div class="content"><strong>Click-to-inspect features</strong>Investment costs, planned works and intervention horizons per network segment</div>
+      </div>
+    </div>
+
+    <div class="fragment fade-up">
+      <div style="border:1px solid rgba(46,134,193,.3);border-radius:16px;overflow:hidden;line-height:0;margin-bottom:.5em;">
+        <iframe src="https://www.linkedin.com/embed/feed/update/urn:li:ugcPost:7127176080326586368?compact=1"
+                height="399" width="504" frameborder="0" allowfullscreen
+                style="width:100%;height:340px;display:block;border:none;">
+        </iframe>
+      </div>
+      <div class="fragment fade-up" style="margin-top:.4em;">
+        <div style="font-size:.5em;font-weight:700;color:var(--muted);margin-bottom:.35em;text-transform:uppercase;">Tech Stack</div>
+        <div>
+          <span class="chip" style="background:rgba(88,150,50,.18);border-color:rgba(88,150,50,.4);color:#88c057;"><i class="fas fa-layer-group"></i> QGIS Server</span>
+          <span class="chip" style="background:rgba(88,150,50,.18);border-color:rgba(88,150,50,.4);color:#88c057;">PyQGIS</span>
+          <span class="chip">PostGIS</span><span class="chip">Django</span>
+          <span class="chip">OpenLayers</span><span class="chip">AngularJS</span><span class="chip">Docker</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 7f · PHD 6/6 — CONCLUSIONS & RECOMMENDATIONS
+══════════════════════════════════════════════════════ -->
+<section data-background-color="#0d1b2a">
+  <div class="section-label" style="border-color:rgba(46,134,193,.4);color:#5dade2;background:rgba(46,134,193,.1);"><i class="fas fa-check-circle"></i> PhD Research · 6/6</div>
+  <h2 style="color:#5dade2;"><i class="fas fa-flag-checkered"></i> Conclusions &amp; Recommendations</h2>
+
+  <div class="grid-2" style="gap:1.2em;align-items:start;">
+    <div>
+      <div style="font-size:.55em;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.5em;">Hypotheses — Validation</div>
+      <div style="display:flex;flex-direction:column;gap:.4em;margin-bottom:.9em;">
+        <div class="card" style="padding:.5em .85em;display:flex;align-items:center;gap:.7em;border-color:rgba(88,192,87,.3);">
+          <span style="color:#88c057;font-size:1em;">✅</span>
+          <span style="font-size:.58em;color:rgba(255,255,255,.85);">Increasing development of <strong>flood &amp; landslide risk zones</strong></span>
+        </div>
+        <div class="card" style="padding:.5em .85em;display:flex;align-items:center;gap:.7em;border-color:rgba(88,192,87,.3);">
+          <span style="color:#88c057;font-size:1em;">✅</span>
+          <span style="font-size:.58em;color:rgba(255,255,255,.85);"><strong>Coordination failures</strong> between water management actors</span>
+        </div>
+        <div class="card" style="padding:.5em .85em;display:flex;align-items:center;gap:.7em;border-color:rgba(88,192,87,.3);">
+          <span style="color:#88c057;font-size:1em;">✅</span>
+          <span style="font-size:.58em;color:rgba(255,255,255,.85);">Need for an <strong>integrated vision</strong> across all stakeholders</span>
+        </div>
+        <div class="card" style="padding:.5em .85em;display:flex;align-items:center;gap:.7em;border-color:rgba(240,165,0,.3);">
+          <span style="color:#f0a500;font-size:1em;">⚠️</span>
+          <span style="font-size:.58em;color:rgba(255,255,255,.85);"><strong>Curative rather than preventive</strong> management (partially confirmed)</span>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div style="font-size:.55em;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.5em;">Recommendations</div>
+      <ul class="bullet-list fragment fade-up" style="margin-bottom:.6em;">
+        <li><span>Strengthen the <strong>institutional framework</strong> and inter-actor coordination</span></li>
+        <li><span>Ensure <strong>sustainable financing</strong> for the sanitation sector</span></li>
+        <li><span>Develop <strong>locally adapted technical solutions</strong> for stormwater collection &amp; wastewater treatment</span></li>
+        <li><span>Implement an <strong>early warning system</strong> for flood &amp; landslide risks</span></li>
+        <li><span>Build a <strong>centralised geoportal</strong> for data management &amp; decision support → Geosanitation</span></li>
+      </ul>
+      <div class="fragment fade-up" style="border-top:1px solid rgba(46,134,193,.2);padding-top:.45em;">
+        <div style="font-size:.46em;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:.35em;">Further Reading</div>
+        <div style="display:flex;flex-direction:column;gap:.25em;">
+          <a href="https://drive.google.com/file/d/1s7aPsY_71qEh29zUTfKuA418Iaz8hRwQ/view?usp=share_link" style="font-size:.46em;color:#5dade2;font-family:'Space Mono',monospace;text-decoration:none;"><i class="fas fa-file-pdf"></i> PhD Thesis (FR)</a>
+          <a href="https://drive.google.com/file/d/1hSJfAujoXIv4V3Yy-3Uw32LEBT21H5KB/view?usp=share_link" style="font-size:.46em;color:#5dade2;font-family:'Space Mono',monospace;text-decoration:none;"><i class="fas fa-desktop"></i> PhD Slides (FR)</a>
+          <a href="https://www.africinno.com/africancitiesmagazine/african-cities-magazine-5" style="font-size:.46em;color:#5dade2;font-family:'Space Mono',monospace;text-decoration:none;"><i class="fas fa-newspaper"></i> African Cities Magazine #5 · pp. 28–35 (EN)</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 10 · MAP GALLERY
+══════════════════════════════════════════════════════ -->
+<section data-background-color="#0d1b2a">
+  <div class="section-label"><i class="fas fa-images"></i> Map Gallery</div>
+  <h2><i class="fas fa-palette"></i> #30DayMapChallenge 2022</h2>
+
+  <p style="font-size:.6em;color:var(--muted);margin-bottom:.65em;">
+    Maps of Antananarivo &amp; Madagascar — crafted with QGIS, Blender and Adobe PS
+  </p>
+
+  <div class="grid-4" style="gap:.5em;">
+    <div class="map-thumb fragment fade-up">
+      <img src="https://xpirix.github.io/pages/maps/assets/images/23.webp" alt="Landslide risk">
+      <div class="map-thumb-label">Landslide Risk</div>
+    </div>
+    <div class="map-thumb fragment fade-up">
+      <img src="https://xpirix.github.io/pages/maps/assets/images/11.webp" alt="Population density">
+      <div class="map-thumb-label">Population Density</div>
+    </div>
+    <div class="map-thumb fragment fade-up">
+      <img src="https://xpirix.github.io/pages/maps/assets/images/28.webp" alt="3D Madagascar">
+      <div class="map-thumb-label">3D · QGIS + Blender</div>
+    </div>
+    <div class="map-thumb fragment fade-up">
+      <img src="https://xpirix.github.io/pages/maps/assets/images/14.webp" alt="Hexagons">
+      <div class="map-thumb-label">Building Heights (H3)</div>
+    </div>
+  </div>
+
+  <div class="grid-4" style="gap:.5em;margin-top:.5em;">
+    <div class="map-thumb fragment fade-up">
+      <img src="https://xpirix.github.io/pages/maps/assets/images/07.webp" alt="Drone map">
+      <div class="map-thumb-label">First Drone Map · 2018</div>
+    </div>
+    <div class="map-thumb fragment fade-up">
+      <img src="https://xpirix.github.io/pages/maps/assets/images/06.webp" alt="Hydrographic">
+      <div class="map-thumb-label">Hydrographic Network</div>
+    </div>
+    <div class="map-thumb fragment fade-up">
+      <img src="https://xpirix.github.io/pages/maps/assets/images/18.webp" alt="Ikopa 3D">
+      <div class="map-thumb-label">Ikopa Watershed · 3D</div>
+    </div>
+    <div class="map-thumb fragment fade-up">
+      <img src="https://xpirix.github.io/pages/maps/assets/images/02.webp" alt="Contour lines">
+      <div class="map-thumb-label">Contour Lines · LiDAR</div>
+    </div>
+  </div>
+
+  <div class="fragment fade-up" style="margin-top:.6em;text-align:center;font-size:.42em;color:rgba(255,255,255,.3);font-family:'Space Mono',monospace;">
+    Full gallery → xpirix.github.io/pages/maps/
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 11 · IKOPA FULL-BG INTERLUDE
+══════════════════════════════════════════════════════ -->
+<section
+  data-background-image="https://xpirix.github.io/pages/maps/assets/images/30.webp"
+  data-background-size="cover"
+  data-background-opacity="0.32"
+  data-background-color="#0d1b2a">
+  <div style="display:flex;flex-direction:column;height:100%;justify-content:center;padding:50px 70px;">
+    <div class="section-label" style="border-color:rgba(136,192,87,.4);"><i class="fas fa-water"></i> The Ikopa River</div>
+
+    <h1 style="font-size:1.9em;font-weight:900;margin-bottom:.4em;line-height:1.1;">
+      <span style="background:linear-gradient(135deg,#88c057,white);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Antananarivo</span><br>
+      <span style="font-size:.65em;color:rgba(255,255,255,.8);">A vast playground of river floods</span>
+    </h1>
+
+    <div class="highlight-box fragment fade-up" style="max-width:58%;">
+      <p style="font-size:.65em;color:rgba(255,255,255,.88);">
+        The <strong>Ikopa watershed</strong> surrounding Antananarivo is one of Madagascar's most flood-vulnerable urban areas.
+        Every wet season, the city faces inundation — making urban water management research both
+        academically rich and <em>socially critical</em>.
+      </p>
+    </div>
+
+    <div class="fragment fade-up" style="margin-top:1em;display:flex;gap:.5em;flex-wrap:wrap;">
+      <span class="chip"><i class="fas fa-ruler-combined"></i> SRTM 30m DEM</span>
+      <span class="chip"><i class="fas fa-layer-group"></i> HumData layers</span>
+      <span class="chip" style="background:rgba(88,150,50,.2);border-color:rgba(88,150,50,.4);color:#88c057;">
+        <i class="fas fa-globe-africa"></i> QGIS + Blender render
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 12 · WHY QGIS?
+══════════════════════════════════════════════════════ -->
+<section data-background-color="#0a1f0d">
+  <div class="section-label"><i class="fas fa-lightbulb"></i> Key Takeaways</div>
+  <h2 style="color:#a8d56a;"><i class="fas fa-question-circle"></i> Why QGIS for Research &amp; Professional Work?</h2>
+
+  <div class="grid-2" style="gap:.5em;">
+    <div>
+      <div class="card fragment fade-up" style="margin-bottom:.5em;">
+        <div style="display:flex;align-items:center;gap:.5em;margin-bottom:.25em;">
+          <i class="fas fa-unlock" style="color:#88c057;font-size:1.3em;"></i>
+          <strong style="color:white;font-size:.72em;">100% Open Source &amp; Free</strong>
+        </div>
+        <p style="margin:0;font-size:.58em;color:var(--muted);">Critical in developing countries — no license fees, full access to source code, community-driven innovations.</p>
+      </div>
+
+      <div class="card fragment fade-up" style="margin-bottom:.5em;">
+        <div style="display:flex;align-items:center;gap:.5em;margin-bottom:.25em;">
+          <i class="fab fa-python" style="color:#3572a5;font-size:1.3em;"></i>
+          <strong style="color:white;font-size:.72em;">Python Extensibility — PyQGIS</strong>
+        </div>
+        <p style="margin:0;font-size:.58em;color:var(--muted);">Automate repetitive tasks, build custom plugins, integrate with Django, PostGIS and any web stack.</p>
+      </div>
+
+      <div class="card fragment fade-up">
+        <div style="display:flex;align-items:center;gap:.5em;margin-bottom:.25em;">
+          <i class="fas fa-server" style="color:#88c057;font-size:1.3em;"></i>
+          <strong style="color:white;font-size:.72em;">Desktop → Server → Web, seamlessly</strong>
+        </div>
+        <p style="margin:0;font-size:.58em;color:var(--muted);">One unified ecosystem: desktop analysis → QGIS Server → web portal. Zero data format translation.</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="card fragment fade-up" style="margin-bottom:.5em;">
+        <div style="display:flex;align-items:center;gap:.5em;margin-bottom:.25em;">
+          <i class="fas fa-database" style="color:#336791;font-size:1.3em;"></i>
+          <strong style="color:white;font-size:.72em;">Native PostGIS Integration</strong>
+        </div>
+        <p style="margin:0;font-size:.58em;color:var(--muted);">Direct live connection to PostGIS for advanced spatial SQL queries on large geodatasets.</p>
+      </div>
+
+      <div class="card fragment fade-up" style="margin-bottom:.5em;">
+        <div style="display:flex;align-items:center;gap:.5em;margin-bottom:.25em;">
+          <i class="fas fa-users" style="color:var(--gold);font-size:1.3em;"></i>
+          <strong style="color:white;font-size:.72em;">Thriving Global Community</strong>
+        </div>
+        <p style="margin:0;font-size:.58em;color:var(--muted);">Rich plugin ecosystem, comprehensive docs, active forums. You can contribute back — and I do!</p>
+      </div>
+
+      <div class="card fragment fade-up">
+        <div style="display:flex;align-items:center;gap:.5em;margin-bottom:.25em;">
+          <i class="fas fa-palette" style="color:#e74c3c;font-size:1.3em;"></i>
+          <strong style="color:white;font-size:.72em;">Publication-Quality Cartography</strong>
+        </div>
+        <p style="margin:0;font-size:.58em;color:var(--muted);">Advanced symbology, atlas print layouts, 3D terrain views — and the Blender plugin for stunning renders.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════
+     SLIDE 13 · Q&A / CONTACT
+══════════════════════════════════════════════════════ -->
+<section data-background-color="#0d1b2a">
+  <div style="display:flex;flex-direction:column;height:100%;justify-content:center;align-items:center;text-align:center;padding:40px 70px;position:relative;overflow:hidden;">
+
+    <!-- Decorative topo circles in background -->
+    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);opacity:.04;pointer-events:none;">
+      <svg width="600" height="600"><circle cx="300" cy="300" r="290" fill="none" stroke="#88c057" stroke-width="1.5"/><circle cx="300" cy="300" r="240" fill="none" stroke="#88c057" stroke-width="1.5"/><circle cx="300" cy="300" r="190" fill="none" stroke="#88c057" stroke-width="1.5"/><circle cx="300" cy="300" r="140" fill="none" stroke="#88c057" stroke-width="1.5"/><circle cx="300" cy="300" r="90" fill="none" stroke="#88c057" stroke-width="1.5"/></svg>
+    </div>
+
+    <div class="fragment fade-down" style="font-size:2.8em;margin-bottom:.25em;animation:float 4s ease-in-out infinite;">🗺️</div>
+
+    <h1 class="fragment fade-up" style="font-size:2em;font-weight:900;margin-bottom:.25em;">
+      <span class="gradient-text">Questions?</span>
+    </h1>
+
+    <p class="fragment fade-up" style="font-size:.62em;color:var(--muted);margin-bottom:.8em;">
+      Let's talk maps, code, research, or anything geography-related!
+    </p>
+
+    <div class="fragment fade-up grid-2" style="gap:.5em;max-width:680px;margin:0 auto .8em;">
+      <div class="card" style="text-align:left;padding:.5em .85em;">
+        <div style="font-size:.42em;color:var(--muted);margin-bottom:.2em;text-transform:uppercase;letter-spacing:.1em;">Portfolio</div>
+        <a href="https://xpirix.github.io" style="font-size:.55em;font-family:'Space Mono',monospace;color:#88c057;"><i class="fas fa-globe"></i> xpirix.github.io</a>
+      </div>
+      <div class="card" style="text-align:left;padding:.5em .85em;">
+        <div style="font-size:.42em;color:var(--muted);margin-bottom:.2em;text-transform:uppercase;letter-spacing:.1em;">GitHub</div>
+        <a href="https://github.com/xpirix" style="font-size:.55em;font-family:'Space Mono',monospace;color:#88c057;"><i class="fab fa-github"></i> github.com/xpirix</a>
+      </div>
+      <div class="card" style="text-align:left;padding:.5em .85em;">
+        <div style="font-size:.42em;color:var(--muted);margin-bottom:.2em;text-transform:uppercase;letter-spacing:.1em;">Email</div>
+        <a href="mailto:xpirixii@gmail.com" style="font-size:.55em;font-family:'Space Mono',monospace;color:#88c057;"><i class="fas fa-envelope"></i> xpirixii@gmail.com</a>
+      </div>
+      <div class="card" style="text-align:left;padding:.5em .85em;">
+        <div style="font-size:.42em;color:var(--muted);margin-bottom:.2em;text-transform:uppercase;letter-spacing:.1em;">LinkedIn</div>
+        <a href="https://linkedin.com/in/xpirix" style="font-size:.55em;font-family:'Space Mono',monospace;color:#88c057;"><i class="fab fa-linkedin"></i> in/xpirix</a>
+      </div>
+    </div>
+
+    <div class="fragment fade-up" style="display:flex;gap:.5em;flex-wrap:wrap;justify-content:center;">
+      <span class="badge"><i class="fas fa-code"></i> Open to Collaboration</span>
+      <span class="badge" style="background:linear-gradient(135deg,#1e3a5f,#2e6da4);"><i class="fab fa-github"></i> Try QGIS OSINT Matrix!</span>
+      <span class="badge" style="background:linear-gradient(135deg,#4a235a,#884ea0);"><i class="fas fa-graduation-cap"></i> PhD Holder</span>
+    </div>
+
+    <div style="position:absolute;bottom:0px;font-size:.38em;color:rgba(255,255,255,.18);font-family:'Space Mono',monospace;">
+      Made with ♥ + reveal.js · April 2026
+    </div>
+  </div>
+</section>
+
+</div><!-- /slides -->
+</div><!-- /reveal -->
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/zoom/zoom.js"></script>
+
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    progress: true,
+    center: false,
+    transition: 'fade',
+    transitionSpeed: 'default',
+    backgroundTransition: 'fade',
+    width: 1200,
+    height: 820,
+    margin: 0.04,
+    minScale: 0.1,
+    maxScale: 2.0,
+    plugins: [RevealNotes, RevealZoom]
+  });
+
+  // Re-trigger skill bar animation each time the slide is shown
+  Reveal.on('slidechanged', function (event) {
+    event.currentSlide.querySelectorAll('.skill-bar-fill').forEach(function (el) {
+      el.style.animation = 'none';
+      // Force reflow
+      void el.offsetWidth;
+      el.style.animation = 'fillBar 1.6s cubic-bezier(.4,0,.2,1) forwards';
+    });
+  });
+</script>
+</body>
+</html>
